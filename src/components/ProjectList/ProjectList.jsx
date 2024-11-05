@@ -1,20 +1,20 @@
 import { Link } from "react-router-dom";
 
-const HootList = (props) => {
+const ProjectList = (props) => {
     return (
         <main>
             {
-                props.hoots.map(hoot => {
+                props.projects.map(project => {
                     return (
-                        <Link key={hoot._id} to={`/hoots/${hoot._id}`}>
-                            <article>
+                        <Link key={project._id} to={`/projects/${project._id}`}>
+                            <article className="card">
                                 <header>
-                                    <h2>{hoot.title}</h2>
-                                    <p>
+                                    <h2>{project.name}</h2>
+                                    {/* <p>
                                         {hoot.author.username} posted on {new Date(hoot.createdAt).toLocaleDateString()}
-                                    </p>
+                                    </p> */}
                                 </header>
-                                <p>{hoot.text}</p>
+                                <p>{project.description}</p>
                             </article>
                         </Link>
                     )
@@ -24,7 +24,7 @@ const HootList = (props) => {
     )
 }
 
-export default HootList;
+export default ProjectList;
 
 
 //1. Add a link to this hoot

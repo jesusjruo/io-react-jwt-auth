@@ -1,3 +1,4 @@
+import './App.css';
 import { useState, createContext, useEffect } from 'react';
 import { Routes, Route, useNavigate} from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
@@ -6,24 +7,24 @@ import Dashboard from './components/Dashboard/Dashboard';
 import SignupForm from './components/SignupForm/SignupForm';
 import SigninForm from './components/SigninForm/SigninForm';
 import * as authService from '../src/services/authService'; // import the authservice
-import HootList from './components/HootList/HootList';
-import { index , create , deleteHoot, update} from './services/hootService';
+import ProjectList from './components/ProjectList/ProjectList';
+import { index , create , deleteHoot, update} from './services/projectService';
 import HootDetails from './components/HootDetails/HootDetails';
-import HootForm from './components/HootForm/HootForm';
+import ProjectForm from './components/ProjectForm/ProjectForm';
 export const AuthedUserContext = createContext(null);
 
 const App = () => {
   const [user, setUser] = useState(authService.getUser()); // using the method from authservice
-  const [hoots, setHoots] = useState([]);
+  const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-      const fetchAllHoots = async () => {
-        const hootsData = await index();
-        console.log('hootsData: ', hootsData);
-        setHoots(hootsData);
+      const fetchAllProjects = async () => {
+        const projectsData = await index();
+        console.log('projectsData: ', projectsData);
+        setProjects(projectsData);
       }
-      if(user) fetchAllHoots();
+      if(user) fetchAllProjects();
   }, [user]); //
 
 
@@ -33,34 +34,34 @@ const App = () => {
   };
 
   const handleAddHoot = async (formData) => {
-    const newHoot = await create(formData);
-    setHoots([newHoot, ...hoots]);
-    navigate('/hoots');
+    const newProject = await create(formData);
+    setProjects([newProject, ...projects]);
+    navigate('/projects');
   }
 
   const handleDeleteHoot = async (hootId) => {
         console.log('hootId', hootId);
 
         await deleteHoot(hootId);
-        setHoots(hoots.filter((hoot) => {
+        setProjects(projects.filter((hoot) => {
           return (
             hoot._id !== hootId
           )
         }));
-        navigate('/hoots');
+        navigate('/projects');
   }
 
-  const handleUpdateHoot = async (hootId , formData) => {
-      console.log('hootId', hootId);
+  const handleUpdateProject = async (projectId , formData) => {
+      console.log('projectId', projectId);
 
-      const updatedHoot = await update(hootId , formData);
+      const updatedProject = await update(projectId , formData);
 
-      setHoots(hoots.map((hoot) => {
+      setProjects(projects.map((project) => {
         return (
-          hootId === hoot._id ? updatedHoot : hoot
+          projectId === project._id ? updatedProject : project
         )
       }));
-      navigate('/hoots');
+      navigate('/projects');
   }
 
   return (
@@ -71,10 +72,10 @@ const App = () => {
           {user ? (
             <>
               <Route path="/" element={<Dashboard user={user} />} />
-              <Route path='/hoots' element={<HootList hoots={hoots}/>} />
-              <Route path='/hoots/new' element={<HootForm handleAddHoot={handleAddHoot}/>} />
-              <Route path='/hoots/:hootId' element={<HootDetails handleDeleteHoot={handleDeleteHoot}/> } />
-              <Route path='/hoots/:hootId/edit' element={<HootForm handleUpdateHoot={handleUpdateHoot}/> } />
+              <Route path='/projects' element={<ProjectList projects={projects}/>} />
+              <Route path='/projects/new' element={<ProjectForm handleAddHoot={handleAddHoot}/>} />
+              <Route path='/projects/:projectId' element={<HootDetails handleDeleteHoot={handleDeleteHoot}/> } />
+              <Route path='/projects/:projectId/edit' element={<ProjectForm handleUpdateProject={handleUpdateProject}/> } />
             </>
           ) : (
             <Route path="/" element={<Landing />} />

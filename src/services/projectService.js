@@ -1,4 +1,4 @@
-const BASE_URL = `${import.meta.env.VITE_EXPRESS_BACKEND_URL}/hoots`;
+const BASE_URL = `${import.meta.env.VITE_EXPRESS_BACKEND_URL}/projects`;
 
 
 export const index = async () => {
@@ -12,12 +12,9 @@ export const index = async () => {
     }
 }
 
- 
-
-
-export const show = async (hootId) => {
+export const show = async (projectId) => {
     try{
-        const res = await fetch(`${BASE_URL}/${hootId}`, {
+        const res = await fetch(`${BASE_URL}/${projectId}`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         })
         return res.json();
@@ -26,11 +23,11 @@ export const show = async (hootId) => {
     }
 }
 
-export const create = async (hootFormData) => {
+export const create = async (projectFormData) => {
     try{
         const res = await fetch(BASE_URL , {
             method: 'POST',
-            body: JSON.stringify(hootFormData),
+            body: JSON.stringify(projectFormData),
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json',
@@ -42,25 +39,9 @@ export const create = async (hootFormData) => {
     }
 }
 
-export const createComment = async (hootId, commentFormData) => {
+  export const deleteHoot = async (projectId) => {
     try {
-      const res = await fetch(`${BASE_URL}/${hootId}/comments`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(commentFormData),
-      });
-      return res.json();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  export const deleteHoot = async (hootId) => {
-    try {
-      const res = await fetch(`${BASE_URL}/${hootId}`, {
+      const res = await fetch(`${BASE_URL}/${projectId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -73,15 +54,15 @@ export const createComment = async (hootId, commentFormData) => {
     }
   };
 
-  export const update = async (hootId , hootFormData) => {
+  export const update = async (projectId , projectFormData) => {
     try {
-      const res = await fetch(`${BASE_URL}/${hootId}`, {
+      const res = await fetch(`${BASE_URL}/${projectId}`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(hootFormData),
+        body: JSON.stringify(projectFormData),
       });
       return res.json();
     } catch (error) {
