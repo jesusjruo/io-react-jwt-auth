@@ -8,7 +8,7 @@ const Landing = () => {
         </h3>
       </div>
       <footer className="landing-footer">
-        <p>Crafted with love by Jesus and Alex</p>
+        <p>Crafted with love by Jesus and Alex.</p>
       </footer>
     </main>
   );

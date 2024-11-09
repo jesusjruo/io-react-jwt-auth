@@ -79,7 +79,7 @@ const ProjectForm = (props) => {
                     value={formData.repoLink}
                     onChange={handleChange}
                 />
-                <label htmlFor="category">Status: </label>
+                <label htmlFor="status">Status: </label>
                 <select
                     required
                     name="status"
