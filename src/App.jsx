@@ -8,8 +8,8 @@ import SignupForm from './components/SignupForm/SignupForm';
 import SigninForm from './components/SigninForm/SigninForm';
 import * as authService from '../src/services/authService'; // import the authservice
 import ProjectList from './components/ProjectList/ProjectList';
-import { index , create , deleteHoot, update} from './services/projectService';
-import HootDetails from './components/HootDetails/HootDetails';
+import { index , create , deleteProject, update} from './services/projectService';
+import ProjectDetails from './components/ProjectDetails/ProjectDetails';
 import ProjectForm from './components/ProjectForm/ProjectForm';
 export const AuthedUserContext = createContext(null);
 
@@ -25,7 +25,7 @@ const App = () => {
         setProjects(projectsData);
       }
       if(user) fetchAllProjects();
-  }, [user]); //
+  }, [user]);
 
 
   const handleSignout = () => {
@@ -33,19 +33,17 @@ const App = () => {
     setUser(null);
   };
 
-  const handleAddHoot = async (formData) => {
+  const handleAddProject = async (formData) => {
     const newProject = await create(formData);
     setProjects([newProject, ...projects]);
     navigate('/projects');
   }
 
-  const handleDeleteHoot = async (hootId) => {
-        console.log('hootId', hootId);
-
-        await deleteHoot(hootId);
-        setProjects(projects.filter((hoot) => {
+  const handleDeleteProject = async (projectId) => {
+        await deleteProject(projectId);
+        setProjects(projects.filter((project) => {
           return (
-            hoot._id !== hootId
+            project._id !== projectId
           )
         }));
         navigate('/projects');
@@ -53,9 +51,7 @@ const App = () => {
 
   const handleUpdateProject = async (projectId , formData) => {
       console.log('projectId', projectId);
-
       const updatedProject = await update(projectId , formData);
-
       setProjects(projects.map((project) => {
         return (
           projectId === project._id ? updatedProject : project
@@ -73,8 +69,8 @@ const App = () => {
             <>
               <Route path="/" element={<Dashboard user={user} />} />
               <Route path='/projects' element={<ProjectList projects={projects}/>} />
-              <Route path='/projects/new' element={<ProjectForm handleAddHoot={handleAddHoot}/>} />
-              <Route path='/projects/:projectId' element={<HootDetails handleDeleteHoot={handleDeleteHoot}/> } />
+              <Route path='/projects/new' element={<ProjectForm handleAddProject={handleAddProject}/>} />
+              <Route path='/projects/:projectId' element={<ProjectDetails handleDeleteProject={handleDeleteProject}/> } />
               <Route path='/projects/:projectId/edit' element={<ProjectForm handleUpdateProject={handleUpdateProject}/> } />
             </>
           ) : (
@@ -82,6 +78,7 @@ const App = () => {
           )}
           <Route path="/signup" element={<SignupForm setUser={setUser} />} />
           <Route path="/signin" element={<SigninForm setUser={setUser} />} />
+          <Route path="*" element={<h1>Wrong way pal...</h1>}/>
         </Routes>
       </AuthedUserContext.Provider>
     </>

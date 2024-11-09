@@ -10,7 +10,7 @@ const ProjectForm = (props) => {
         description: "",
         hostingLink: "",
         repoLink: "",
-        category: "hosted"
+        status: "hosted"
     });
 
     const handleChange = e => {
@@ -24,19 +24,19 @@ const ProjectForm = (props) => {
         e.preventDefault();
 
         if(projectId) {
-            props.handleUpdateHoot(projectId , formData)
+            props.handleUpdateProject(projectId , formData)
         } else {
-            props.handleAddHoot(formData);
+            props.handleAddProject(formData);
         }
     }
 
     useEffect(() => {
-        const fetchHoot = async () => {
-            const hootData = await show(projectId)
-            console.log(hootData);
-            setFormData(hootData);
+        const fetchProject = async () => {
+            const projectData = await show(projectId)
+            console.log(projectData);
+            setFormData(projectData);
         }
-        if(projectId) fetchHoot();
+        if(projectId) fetchProject();
     } , [projectId])
 
     return (
@@ -49,7 +49,7 @@ const ProjectForm = (props) => {
                     type="text"
                     name="name"
                     id="name-input"
-                    value={formData.title}
+                    value={formData.name}
                     onChange={handleChange}
                 />
                 <label htmlFor="text">Description: </label>
@@ -58,7 +58,7 @@ const ProjectForm = (props) => {
                     type="text"
                     name="description"
                     id="description-input"
-                    value={formData.text}
+                    value={formData.description}
                     onChange={handleChange}
                 />
                 <label htmlFor="text">Hosting Link: </label>
@@ -67,7 +67,7 @@ const ProjectForm = (props) => {
                     type="text"
                     name="hostingLink"
                     id="hostingLink-input"
-                    value={formData.text}
+                    value={formData.hostingLink}
                     onChange={handleChange}
                 />
                 <label htmlFor="text">Repository Link: </label>
@@ -76,7 +76,7 @@ const ProjectForm = (props) => {
                     type="text"
                     name="repoLink"
                     id="repoLink-input"
-                    value={formData.text}
+                    value={formData.repoLink}
                     onChange={handleChange}
                 />
                 <label htmlFor="category">Status: </label>
@@ -84,7 +84,7 @@ const ProjectForm = (props) => {
                     required
                     name="status"
                     id="status-input"
-                    value={formData.category}
+                    value={formData.status}
                     onChange={handleChange}
                 >
                 <option value="hosted">Hosted</option>

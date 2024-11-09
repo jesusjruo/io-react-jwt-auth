@@ -39,7 +39,7 @@ export const create = async (projectFormData) => {
     }
 }
 
-  export const deleteHoot = async (projectId) => {
+  export const deleteProject = async (projectId) => {
     try {
       const res = await fetch(`${BASE_URL}/${projectId}`, {
         method: 'DELETE',

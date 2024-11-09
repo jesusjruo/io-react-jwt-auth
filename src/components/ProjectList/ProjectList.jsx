@@ -10,9 +10,9 @@ const ProjectList = (props) => {
                             <article className="card">
                                 <header>
                                     <h2>{project.name}</h2>
-                                    {/* <p>
-                                        {hoot.author.username} posted on {new Date(hoot.createdAt).toLocaleDateString()}
-                                    </p> */}
+                                    <p>
+                                        By {project.author.username}
+                                    </p>
                                 </header>
                                 <p>{project.description}</p>
                             </article>
@@ -25,9 +25,4 @@ const ProjectList = (props) => {
 }
 
 export default ProjectList;
-
-
-//1. Add a link to this hoot
-//2. going to show the title and username and date created
-//3. goign to show the hoot text
 
